@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar nos Cadernos - PJe</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔍 Buscar nos Cadernos</h1>
+            <p>Pesquise termos nos documentos já baixados</p>
+        </header>
+
+        <nav class="tabs">
+            <a href="/" class="tab">Download</a>
+            <a href="/busca" class="tab active">Buscar Documentos</a>
+        </nav>
+
+        <div class="card">
+            <h2>🔎 Pesquisar</h2>
+
+            <div class="form-group">
+                <label for="termo_busca">Termo de Busca:</label>
+                <div class="search-input-group">
+                    <input type="text" id="termo_busca" placeholder="Digite o termo que deseja buscar..." autofocus>
+                    <button onclick="realizarBusca()" class="btn btn-primary" id="btn_buscar">
+                        Buscar
+                    </button>
+                </div>
+                <small>Total de {{ total_documentos }} documentos disponíveis para busca</small>
+            </div>
+
+            <div id="busca_status" class="status-box" style="display: none;">
+                <div class="loader"></div>
+                <p>Buscando nos documentos...</p>
+            </div>
+        </div>
+
+        <div class="card" id="resultados_card" style="display: none;">
+            <h2>📄 Resultados</h2>
+
+            <div class="resultados-resumo" id="resultados_resumo">
+            </div>
+
+            <div class="resultados-list" id="resultados_list">
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>📊 Informações</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <strong>Total de Documentos:</strong>
+                    <span>{{ total_documentos }}</span>
+                </div>
+                <div class="info-item">
+                    <strong>Pasta de Salvamento:</strong>
+                    <span>{{ config.pasta_salvamento }}</span>
+                </div>
+                {% if ultima_atualizacao %}
+                <div class="info-item">
+                    <strong>Última Atualização:</strong>
+                    <span>{{ ultima_atualizacao }}</span>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="alert alert-info">
+                <strong>💡 Dica:</strong> A busca é realizada APENAS nos documentos que você já baixou.
+                Para buscar em mais documentos, faça o download primeiro na aba "Download".
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        // Busca ao pressionar Enter
+        document.getElementById('termo_busca').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                realizarBusca();
+            }
+        });
+    </script>
+</body>
+</html>

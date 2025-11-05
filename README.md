@@ -2,7 +2,27 @@
 
 Baixador automatizado de cadernos (Editais e Diários Eletrônicos) de todos os tribunais brasileiros do sistema PJe.
 
-## Características
+## 🌐 Aplicação Web Disponível!
+
+**NOVO:** Agora com interface web completa! Use o navegador para baixar e buscar nos cadernos.
+
+```bash
+python app.py
+# Acesse: http://localhost:5000
+```
+
+**Recursos da aplicação web:**
+- 📥 Interface gráfica para download
+- 🔍 Busca textual nos documentos baixados
+- 📊 Estatísticas em tempo real
+- 💾 Configuração de pasta de salvamento
+- ⚡ Evita downloads duplicados automaticamente
+
+👉 **[Veja a documentação completa da aplicação web](README_WEB.md)**
+
+---
+
+## Características (Linha de Comando)
 
 - Download automatizado de Editais (E) e Diários Eletrônicos (D)
 - Suporte a todos os tribunais brasileiros (Nacional, Estaduais e Regionais)

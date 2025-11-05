@@ -1,6 +1,8 @@
 # Início Rápido - Baixador de Cadernos PJe
 
-## Instalação em 3 passos
+## 🌐 RECOMENDADO: Aplicação Web
+
+A forma mais fácil de usar é através da interface web:
 
 ```bash
 # 1. Clone e entre no diretório
@@ -10,9 +12,29 @@ cd cadernos
 # 2. Instale as dependências
 pip install -r requirements.txt
 
-# 3. Execute!
-python baixador_cadernos.py
+# 3. Inicie a aplicação web
+python app.py
+# ou
+./iniciar_web.sh
+
+# 4. Abra no navegador
+# http://localhost:5000
 ```
+
+**Com a aplicação web você pode:**
+- ✨ Interface gráfica amigável
+- 📁 Escolher pasta de salvamento
+- 🔍 Buscar nos documentos baixados
+- 📊 Ver estatísticas
+- ⚡ Evita downloads duplicados automaticamente
+
+👉 [Ver documentação completa da web](README_WEB.md)
+
+---
+
+## 💻 Alternativa: Linha de Comando
+
+Se preferir usar pelo terminal:
 
 ## Comandos Mais Usados
 

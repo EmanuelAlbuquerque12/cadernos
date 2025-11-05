@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baixador de Cadernos PJe</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 Baixador de Cadernos PJe</h1>
+            <p>Download automatizado de Editais e Diários Eletrônicos</p>
+        </header>
+
+        <nav class="tabs">
+            <a href="/" class="tab active">Download</a>
+            <a href="/busca" class="tab">Buscar Documentos</a>
+        </nav>
+
+        <div class="card">
+            <h2>⚙️ Configurações</h2>
+            <div class="form-group">
+                <label for="pasta_salvamento">Pasta de Salvamento:</label>
+                <div class="input-with-button">
+                    <input type="text" id="pasta_salvamento" value="{{ config.pasta_salvamento }}" placeholder="/caminho/para/salvar">
+                    <button onclick="salvarConfig()" class="btn btn-secondary">Salvar Pasta</button>
+                </div>
+                <small>Os arquivos serão salvos nesta pasta no seu computador</small>
+            </div>
+
+            <div class="form-group">
+                <label for="workers">Downloads Paralelos:</label>
+                <input type="number" id="workers" value="{{ config.workers }}" min="1" max="20">
+                <small>Número de downloads simultâneos (recomendado: 5)</small>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>📥 Baixar Cadernos</h2>
+
+            <div class="form-group">
+                <label>Período:</label>
+                <div class="date-range">
+                    <input type="date" id="data_inicio" placeholder="Data Início">
+                    <span>até</span>
+                    <input type="date" id="data_fim" placeholder="Data Fim">
+                </div>
+                <small>Deixe em branco para baixar apenas de hoje</small>
+            </div>
+
+            <div class="form-group">
+                <label>Tipos de Caderno:</label>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" value="E" checked> Editais</label>
+                    <label><input type="checkbox" value="D" checked> Diários Eletrônicos</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Selecionar Tribunais:</label>
+                <div class="search-box">
+                    <input type="text" id="busca_tribunal" placeholder="Buscar tribunal por sigla ou nome..." onkeyup="filtrarTribunais()">
+                </div>
+
+                <div class="tribunal-filters">
+                    <button onclick="selecionarTodos()" class="btn btn-small">Selecionar Todos</button>
+                    <button onclick="deselecionarTodos()" class="btn btn-small">Limpar Seleção</button>
+                    <button onclick="selecionarSuperiores()" class="btn btn-small">Tribunais Superiores</button>
+                </div>
+
+                <div class="tribunais-list" id="tribunais_list">
+                    {% for uf, tribunais in tribunais_por_uf.items() %}
+                    <div class="uf-group" data-uf="{{ uf }}">
+                        <h3>{{ uf }}</h3>
+                        <div class="tribunais-grid">
+                            {% for tribunal in tribunais %}
+                            <label class="tribunal-item" data-sigla="{{ tribunal.sigla }}" data-nome="{{ tribunal.nome }}">
+                                <input type="checkbox" class="tribunal-checkbox" value="{{ tribunal.sigla }}">
+                                <div class="tribunal-info">
+                                    <strong>{{ tribunal.sigla }}</strong>
+                                    <span>{{ tribunal.nome }}</span>
+                                </div>
+                            </label>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <button onclick="iniciarDownload()" class="btn btn-primary" id="btn_download">
+                🚀 Iniciar Download
+            </button>
+
+            <div id="download_status" class="status-box" style="display: none;">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress_fill"></div>
+                </div>
+                <p id="status_mensagem"></p>
+                <p id="status_progresso"></p>
+            </div>
+        </div>
+
+        <div class="card" id="estatisticas_card">
+            <h2>📊 Estatísticas</h2>
+            <div id="estatisticas_content">
+                <p>Carregando estatísticas...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        // Inicializa
+        carregarEstatisticas();
+        setInterval(verificarStatus, 1000);
+
+        // Define data de hoje como padrão
+        const hoje = new Date().toISOString().split('T')[0];
+        document.getElementById('data_inicio').value = hoje;
+        document.getElementById('data_fim').value = hoje;
+    </script>
+</body>
+</html>

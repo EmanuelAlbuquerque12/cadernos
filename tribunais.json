@@ -1,0 +1,746 @@
+[
+  {
+    "uf": "",
+    "nomeEstado": "Nacional",
+    "instituicoes": [
+      {
+        "sigla": "CJF",
+        "nome": "Conselho da Justiça Federal",
+        "dataUltimoEnvio": "05/11/2025",
+        "active": true
+      },
+      {
+        "sigla": "CNJ",
+        "nome": "Conselho Nacional de Justiça",
+        "dataUltimoEnvio": "08/07/2020"
+      },
+      {
+        "sigla": "PJeCor",
+        "nome": "Corregedorias",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "SEEU",
+        "nome": "Sistema Eletrônico de Execução Unificado",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "STJ",
+        "nome": "Superior Tribunal de Justiça",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "STM",
+        "nome": "Superior Tribunal Militar",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TSE",
+        "nome": "Tribunal Superior Eleitoral",
+        "dataUltimoEnvio": "14/07/2025"
+      },
+      {
+        "sigla": "TST",
+        "nome": "Tribunal Superior do Trabalho",
+        "dataUltimoEnvio": "05/11/2025"
+      }
+    ]
+  },
+  {
+    "uf": "AC",
+    "nomeEstado": "Acre",
+    "instituicoes": [
+      {
+        "sigla": "TJAC",
+        "nome": "Tribunal de Justiça do Estado do Acre",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRE-AC",
+        "nome": "Tribunal Regional Eleitoral do Acre",
+        "dataUltimoEnvio": "02/10/2025"
+      },
+      {
+        "sigla": "TRF1",
+        "nome": "Tribunal Regional Federal da 1ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRT14",
+        "nome": "Tribunal Regional do Trabalho da 14ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      }
+    ]
+  },
+  {
+    "uf": "AL",
+    "nomeEstado": "Alagoas",
+    "instituicoes": [
+      {
+        "sigla": "TJAL",
+        "nome": "Tribunal de Justiça do Estado de Alagoas",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRE-AL",
+        "nome": "Tribunal Regional Eleitoral de Alagoas",
+        "dataUltimoEnvio": "07/11/2024"
+      },
+      {
+        "sigla": "TRF5",
+        "nome": "Tribunal Regional Federal da 5ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRT19",
+        "nome": "Tribunal Regional do Trabalho da 19ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      }
+    ]
+  },
+  {
+    "uf": "AM",
+    "nomeEstado": "Amazonas",
+    "instituicoes": [
+      {
+        "sigla": "TJAM",
+        "nome": "Tribunal de Justiça do Estado do Amazonas",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRE-AM",
+        "nome": "Tribunal Regional Eleitoral do Amazonas",
+        "dataUltimoEnvio": "30/05/2025"
+      },
+      {
+        "sigla": "TRF1",
+        "nome": "Tribunal Regional Federal da 1ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRT11",
+        "nome": "Tribunal Regional do Trabalho da 11ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      }
+    ]
+  },
+  {
+    "uf": "AP",
+    "nomeEstado": "Amapá",
+    "instituicoes": [
+      {
+        "sigla": "TJAP",
+        "nome": "Tribunal de Justiça do Estado do Amapá",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRE-AP",
+        "nome": "Tribunal Regional Eleitoral do Amapá",
+        "dataUltimoEnvio": "17/10/2025"
+      },
+      {
+        "sigla": "TRF1",
+        "nome": "Tribunal Regional Federal da 1ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRT8",
+        "nome": "Tribunal Regional do Trabalho da 8ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      }
+    ]
+  },
+  {
+    "uf": "BA",
+    "nomeEstado": "Bahia",
+    "instituicoes": [
+      {
+        "sigla": "TJBA",
+        "nome": "Tribunal de Justiça do Estado da Bahia",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRE-BA",
+        "nome": "Tribunal Regional Eleitoral da Bahia",
+        "dataUltimoEnvio": "24/09/2025"
+      },
+      {
+        "sigla": "TRF1",
+        "nome": "Tribunal Regional Federal da 1ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRT5",
+        "nome": "Tribunal Regional do Trabalho da 5ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      }
+    ]
+  },
+  {
+    "uf": "CE",
+    "nomeEstado": "Ceará",
+    "instituicoes": [
+      {
+        "sigla": "TJCE",
+        "nome": "Tribunal de Justiça do Estado do Ceará",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRF5",
+        "nome": "Tribunal Regional Federal da 5ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRT7",
+        "nome": "Tribunal Regional do Trabalho da 7ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      }
+    ]
+  },
+  {
+    "uf": "DF",
+    "nomeEstado": "Distrito Federal",
+    "instituicoes": [
+      {
+        "sigla": "TJDFT",
+        "nome": "Tribunal de Justiça do Distrito Federal e dos Territórios",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRF1",
+        "nome": "Tribunal Regional Federal da 1ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRT10",
+        "nome": "Tribunal Regional do Trabalho da 10ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      }
+    ]
+  },
+  {
+    "uf": "ES",
+    "nomeEstado": "Espírito Santo",
+    "instituicoes": [
+      {
+        "sigla": "TJES",
+        "nome": "Tribunal de Justiça do Estado do Espírito Santo",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRE-ES",
+        "nome": "Tribunal Regional Eleitoral do Espírito Santo",
+        "dataUltimoEnvio": "10/09/2025"
+      },
+      {
+        "sigla": "TRF2",
+        "nome": "Tribunal Regional Federal da 2ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRT17",
+        "nome": "Tribunal Regional do Trabalho da 17ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      }
+    ]
+  },
+  {
+    "uf": "GO",
+    "nomeEstado": "Goiás",
+    "instituicoes": [
+      {
+        "sigla": "TJGO",
+        "nome": "Tribunal de Justiça do Estado de Goiás",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRE-GO",
+        "nome": "Tribunal Regional Eleitoral de Goiás",
+        "dataUltimoEnvio": "31/07/2025"
+      },
+      {
+        "sigla": "TRF1",
+        "nome": "Tribunal Regional Federal da 1ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRT18",
+        "nome": "Tribunal Regional do Trabalho da 18ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      }
+    ]
+  },
+  {
+    "uf": "MA",
+    "nomeEstado": "Maranhão",
+    "instituicoes": [
+      {
+        "sigla": "TJMA",
+        "nome": "Tribunal de Justiça do Estado do Maranhão",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRE-MA",
+        "nome": "Tribunal Regional Eleitoral do Maranhão",
+        "dataUltimoEnvio": "14/10/2025"
+      },
+      {
+        "sigla": "TRF1",
+        "nome": "Tribunal Regional Federal da 1ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRT16",
+        "nome": "Tribunal Regional do Trabalho da 16ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      }
+    ]
+  },
+  {
+    "uf": "MG",
+    "nomeEstado": "Minas Gerais",
+    "instituicoes": [
+      {
+        "sigla": "TJMG",
+        "nome": "Tribunal de Justiça do Estado de Minas Gerais",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TJMMG",
+        "nome": "Tribunal de Justiça Militar do Estado de Minas Gerais",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRF1",
+        "nome": "Tribunal Regional Federal da 1ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRF6",
+        "nome": "Tribunal Regional Federal da 6ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRT3",
+        "nome": "Tribunal Regional do Trabalho da 3ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      }
+    ]
+  },
+  {
+    "uf": "RS",
+    "nomeEstado": "Rio Grande do Sul",
+    "instituicoes": [
+      {
+        "sigla": "TJMRS",
+        "nome": "Tribunal de Justiça Militar do Estado do Rio Grande do Sul",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TJRS",
+        "nome": "Tribunal de Justiça do Estado do Rio Grande do Sul",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRE-RS",
+        "nome": "Tribunal Regional Eleitoral do Rio Grande do Sul",
+        "dataUltimoEnvio": "12/09/2025"
+      },
+      {
+        "sigla": "TRF4",
+        "nome": "Tribunal Regional Federal da 4ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRT4",
+        "nome": "Tribunal Regional do Trabalho da 4ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      }
+    ]
+  },
+  {
+    "uf": "MS",
+    "nomeEstado": "Mato Grosso do Sul",
+    "instituicoes": [
+      {
+        "sigla": "TJMS",
+        "nome": "Tribunal de Justiça do Estado de Mato Grosso do Sul",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRE-MS",
+        "nome": "Tribunal Regional Eleitoral do Mato Grosso do Sul",
+        "dataUltimoEnvio": "18/06/2025"
+      },
+      {
+        "sigla": "TRF3",
+        "nome": "Tribunal Regional Federal da 3ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRT24",
+        "nome": "Tribunal Regional do Trabalho da 24ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      }
+    ]
+  },
+  {
+    "uf": "SP",
+    "nomeEstado": "São Paulo",
+    "instituicoes": [
+      {
+        "sigla": "TJMSP",
+        "nome": "Tribunal de Justiça Militar do Estado de São Paulo",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TJSP",
+        "nome": "Tribunal de Justiça do Estado de São Paulo",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRE-SP",
+        "nome": "Tribunal Regional Eleitoral de São Paulo",
+        "dataUltimoEnvio": "24/10/2025"
+      },
+      {
+        "sigla": "TRF3",
+        "nome": "Tribunal Regional Federal da 3ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRT15",
+        "nome": "Tribunal Regional do Trabalho da 15ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRT2",
+        "nome": "Tribunal Regional do Trabalho da 2ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      }
+    ]
+  },
+  {
+    "uf": "MT",
+    "nomeEstado": "Mato Grosso",
+    "instituicoes": [
+      {
+        "sigla": "TJMT",
+        "nome": "Tribunal de Justiça do Estado de Mato Grosso",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRE-MT",
+        "nome": "Tribunal Regional Eleitoral do do Mato Grosso",
+        "dataUltimoEnvio": "31/07/2025"
+      },
+      {
+        "sigla": "TRF1",
+        "nome": "Tribunal Regional Federal da 1ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRT23",
+        "nome": "Tribunal Regional do Trabalho da 23ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      }
+    ]
+  },
+  {
+    "uf": "PA",
+    "nomeEstado": "Pará",
+    "instituicoes": [
+      {
+        "sigla": "TJPA",
+        "nome": "Tribunal de Justiça do Estado do Pará",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRE-PA",
+        "nome": "Tribunal Regional Eleitoral do do Pará",
+        "dataUltimoEnvio": "04/11/2025"
+      },
+      {
+        "sigla": "TRF1",
+        "nome": "Tribunal Regional Federal da 1ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRT8",
+        "nome": "Tribunal Regional do Trabalho da 8ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      }
+    ]
+  },
+  {
+    "uf": "PB",
+    "nomeEstado": "Paraíba",
+    "instituicoes": [
+      {
+        "sigla": "TJPB",
+        "nome": "Tribunal de Justiça do Estado da Paraíba",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRF5",
+        "nome": "Tribunal Regional Federal da 5ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRT13",
+        "nome": "Tribunal Regional do Trabalho da 13ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      }
+    ]
+  },
+  {
+    "uf": "PE",
+    "nomeEstado": "Pernambuco",
+    "instituicoes": [
+      {
+        "sigla": "TJPE",
+        "nome": "Tribunal de Justiça do Estado de Pernambuco",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRE-PE",
+        "nome": "Tribunal Regional Eleitoral de Pernambuco",
+        "dataUltimoEnvio": "30/09/2025"
+      },
+      {
+        "sigla": "TRF5",
+        "nome": "Tribunal Regional Federal da 5ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRT6",
+        "nome": "Tribunal Regional do Trabalho da 6ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      }
+    ]
+  },
+  {
+    "uf": "PI",
+    "nomeEstado": "Piauí",
+    "instituicoes": [
+      {
+        "sigla": "TJPI",
+        "nome": "Tribunal de Justiça do Estado do Piauí",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRE-PI",
+        "nome": "Tribunal Regional Eleitoral do Piauí",
+        "dataUltimoEnvio": "29/10/2025"
+      },
+      {
+        "sigla": "TRF1",
+        "nome": "Tribunal Regional Federal da 1ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRT22",
+        "nome": "Tribunal Regional do Trabalho da 22ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      }
+    ]
+  },
+  {
+    "uf": "PR",
+    "nomeEstado": "Paraná",
+    "instituicoes": [
+      {
+        "sigla": "TJPR",
+        "nome": "Tribunal de Justiça do Estado do Paraná",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRE-PR",
+        "nome": "Tribunal Regional Eleitoral do Paraná",
+        "dataUltimoEnvio": "04/11/2025"
+      },
+      {
+        "sigla": "TRF4",
+        "nome": "Tribunal Regional Federal da 4ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRT9",
+        "nome": "Tribunal Regional do Trabalho da 9ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      }
+    ]
+  },
+  {
+    "uf": "RJ",
+    "nomeEstado": "Rio de Janeiro",
+    "instituicoes": [
+      {
+        "sigla": "TJRJ",
+        "nome": "Tribunal de Justiça do Estado do Rio de Janeiro",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRE-RJ",
+        "nome": "Tribunal Regional Eleitoral do Rio de Janeiro",
+        "dataUltimoEnvio": "23/10/2025"
+      },
+      {
+        "sigla": "TRF2",
+        "nome": "Tribunal Regional Federal da 2ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRT1",
+        "nome": "Tribunal Regional do Trabalho da 1ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      }
+    ]
+  },
+  {
+    "uf": "RN",
+    "nomeEstado": "Rio Grande do Norte",
+    "instituicoes": [
+      {
+        "sigla": "TJRN",
+        "nome": "Tribunal de Justiça do Estado do Rio Grande do Norte",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRE-RN",
+        "nome": "Tribunal Regional Eleitoral do Rio Grande do Norte",
+        "dataUltimoEnvio": "01/08/2025"
+      },
+      {
+        "sigla": "TRF5",
+        "nome": "Tribunal Regional Federal da 5ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRT21",
+        "nome": "Tribunal Regional do Trabalho da 21ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      }
+    ]
+  },
+  {
+    "uf": "RO",
+    "nomeEstado": "Rondônia",
+    "instituicoes": [
+      {
+        "sigla": "TJRO",
+        "nome": "Tribunal de Justiça do Estado de Rondônia",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRE-RO",
+        "nome": "Tribunal Regional Eleitoral de Rondônia",
+        "dataUltimoEnvio": "06/08/2025"
+      },
+      {
+        "sigla": "TRF1",
+        "nome": "Tribunal Regional Federal da 1ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRT14",
+        "nome": "Tribunal Regional do Trabalho da 14ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      }
+    ]
+  },
+  {
+    "uf": "RR",
+    "nomeEstado": "Roraima",
+    "instituicoes": [
+      {
+        "sigla": "TJRR",
+        "nome": "Tribunal de Justiça do Estado de Roraima",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRF1",
+        "nome": "Tribunal Regional Federal da 1ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRT11",
+        "nome": "Tribunal Regional do Trabalho da 11ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      }
+    ]
+  },
+  {
+    "uf": "SC",
+    "nomeEstado": "Santa Catarina",
+    "instituicoes": [
+      {
+        "sigla": "TJSC",
+        "nome": "Tribunal de Justiça do Estado de Santa Catarina",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRE-SC",
+        "nome": "Tribunal Regional Eleitoral de Santa Catarina",
+        "dataUltimoEnvio": "16/12/2024"
+      },
+      {
+        "sigla": "TRF4",
+        "nome": "Tribunal Regional Federal da 4ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRT12",
+        "nome": "Tribunal Regional do Trabalho da 12ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      }
+    ]
+  },
+  {
+    "uf": "SE",
+    "nomeEstado": "Sergipe",
+    "instituicoes": [
+      {
+        "sigla": "TJSE",
+        "nome": "Tribunal de Justiça do Estado de Sergipe",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRF5",
+        "nome": "Tribunal Regional Federal da 5ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRT20",
+        "nome": "Tribunal Regional do Trabalho da 20ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      }
+    ]
+  },
+  {
+    "uf": "TO",
+    "nomeEstado": "Tocantins",
+    "instituicoes": [
+      {
+        "sigla": "TJTO",
+        "nome": "Tribunal de Justiça do Estado de Tocantins",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRE-TO",
+        "nome": "Tribunal Regional Eleitoral de Tocantins",
+        "dataUltimoEnvio": "21/08/2025"
+      },
+      {
+        "sigla": "TRF1",
+        "nome": "Tribunal Regional Federal da 1ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      },
+      {
+        "sigla": "TRT10",
+        "nome": "Tribunal Regional do Trabalho da 10ª Região",
+        "dataUltimoEnvio": "05/11/2025"
+      }
+    ]
+  }
+]

@@ -1,4 +1,10 @@
+# Dependências principais
 requests>=2.31.0
 urllib3>=2.0.0
 flask>=3.0.0
 PyPDF2>=3.0.0
+
+# Dependências para build (gerar .exe)
+# Instale apenas se for gerar o executável
+# pip install pyinstaller
+pyinstaller>=6.0.0

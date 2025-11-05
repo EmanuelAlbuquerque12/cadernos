@@ -396,10 +396,71 @@ def api_estatisticas():
     })
 
 
+def encontrar_porta_disponivel(porta_inicial=5000, max_tentativas=10):
+    """Encontra uma porta disponível"""
+    import socket
+    for porta in range(porta_inicial, porta_inicial + max_tentativas):
+        try:
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                s.bind(('', porta))
+                return porta
+        except OSError:
+            continue
+    return porta_inicial
+
+
+def abrir_navegador(porta, delay=1.5):
+    """Abre o navegador após um delay"""
+    import webbrowser
+    import time
+    time.sleep(delay)
+    webbrowser.open(f'http://localhost:{porta}')
+
+
+def is_executavel():
+    """Detecta se está rodando como executável"""
+    import sys
+    return getattr(sys, 'frozen', False)
+
+
 if __name__ == '__main__':
+    # Detecta se é executável
+    eh_exe = is_executavel()
+
+    # Encontra porta disponível
+    porta = encontrar_porta_disponivel()
+
     print("=" * 60)
-    print("Baixador e Buscador de Cadernos PJe")
+    print("📚 Baixador e Buscador de Cadernos PJe")
     print("=" * 60)
-    print("Acesse: http://localhost:5000")
+    print(f"🌐 Servidor iniciado na porta {porta}")
+    print(f"🔗 Acesse: http://localhost:{porta}")
     print("=" * 60)
-    app.run(debug=True, host='0.0.0.0', port=5000)
+
+    if eh_exe:
+        print("✨ Abrindo navegador automaticamente...")
+        print("⚠️  Não feche esta janela enquanto usar o programa!")
+
+    print("=" * 60)
+    print("💡 Pressione Ctrl+C para encerrar")
+    print("=" * 60)
+
+    # Abre navegador automaticamente
+    if eh_exe:
+        thread = threading.Thread(target=abrir_navegador, args=(porta,))
+        thread.daemon = True
+        thread.start()
+
+    # Inicia servidor
+    try:
+        # Modo produção para .exe, debug para desenvolvimento
+        app.run(
+            debug=not eh_exe,
+            host='0.0.0.0',
+            port=porta,
+            use_reloader=False  # Desabilita reloader para evitar problemas com .exe
+        )
+    except KeyboardInterrupt:
+        print("\n" + "=" * 60)
+        print("👋 Servidor encerrado. Até logo!")
+        print("=" * 60)

@@ -2,21 +2,44 @@
 
 Baixador automatizado de cadernos (Editais e Diários Eletrônicos) de todos os tribunais brasileiros do sistema PJe.
 
-## 🌐 Aplicação Web Disponível!
+## 💾 VERSÃO EXECUTÁVEL (.exe) DISPONÍVEL!
 
-**NOVO:** Agora com interface web completa! Use o navegador para baixar e buscar nos cadernos.
+**MAIS FÁCIL:** Gere um executável Windows que não precisa de Python instalado!
+
+### Para Usuários Finais:
+1. **Baixe** o arquivo `BaixadorCadernosPJe.exe` (será disponibilizado)
+2. **Duplo clique** no arquivo
+3. **Pronto!** O navegador abre automaticamente
+
+### Para Desenvolvedores - Gerar o .exe:
+```bash
+python build_exe.py
+# ou (Windows)
+build.bat
+```
+
+O executável será criado em `dist/BaixadorCadernosPJe.exe`
+
+👉 **[Veja o guia completo para gerar .exe](COMO_GERAR_EXE.md)**
+
+---
+
+## 🌐 Aplicação Web (Python)
+
+Se você tem Python instalado, pode executar direto:
 
 ```bash
 python app.py
 # Acesse: http://localhost:5000
 ```
 
-**Recursos da aplicação web:**
+**Recursos da aplicação:**
 - 📥 Interface gráfica para download
 - 🔍 Busca textual nos documentos baixados
 - 📊 Estatísticas em tempo real
 - 💾 Configuração de pasta de salvamento
 - ⚡ Evita downloads duplicados automaticamente
+- 🌐 Abre navegador automaticamente
 
 👉 **[Veja a documentação completa da aplicação web](README_WEB.md)**
 

@@ -1,8 +1,30 @@
 # Início Rápido - Baixador de Cadernos PJe
 
-## 🌐 RECOMENDADO: Aplicação Web
+## 🪟 MAIS FÁCIL: Windows com .bat (RECOMENDADO!)
 
-A forma mais fácil de usar é através da interface web:
+**A forma MAIS SIMPLES** - apenas duplo clique!
+
+### Passo a Passo:
+
+1. **Baixe/Clone** o repositório
+2. **Duplo clique** em: `INSTALAR_DEPENDENCIAS.bat` (só primeira vez)
+3. **Duplo clique** em: `INICIAR.bat` (sempre que usar)
+4. **Pronto!** Navegador abre sozinho! 🎉
+
+### Isso faz TUDO automaticamente:
+- ✅ Verifica Python
+- ✅ Instala dependências
+- ✅ Inicia aplicação
+- ✅ Abre navegador
+- ✅ Zero configuração manual!
+
+👉 **[Guia completo Windows](README_WINDOWS.md)**
+
+---
+
+## 🌐 Alternativa: Linha de Comando
+
+Para Linux/Mac ou se preferir terminal:
 
 ```bash
 # 1. Clone e entre no diretório
@@ -32,9 +54,9 @@ python app.py
 
 ---
 
-## 💻 Alternativa: Linha de Comando
+## 💻 Terminal (Avançado)
 
-Se preferir usar pelo terminal:
+Se preferir linha de comando:
 
 ## Comandos Mais Usados
 

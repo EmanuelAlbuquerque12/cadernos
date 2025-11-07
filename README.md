@@ -24,9 +24,38 @@ O executável será criado em `dist/BaixadorCadernosPJe.exe`
 
 ---
 
+## 🪟 WINDOWS: Use com 1 Clique! (.bat)
+
+**SUPER FÁCIL:** No Windows, use os arquivos `.bat` - duplo clique e pronto!
+
+### 🚀 Início Rápido (Windows):
+
+1. **Primeira vez** - Duplo clique em:
+   ```
+   INSTALAR_DEPENDENCIAS.bat
+   ```
+
+2. **Sempre que usar** - Duplo clique em:
+   ```
+   INICIAR.bat
+   ```
+
+3. **Pronto!** Navegador abre automaticamente! 🎉
+
+### 📋 Arquivos .bat disponíveis:
+- **INICIAR.bat** - Inicia a aplicação (use este!)
+- **INSTALAR_DEPENDENCIAS.bat** - Instala tudo automaticamente
+- **INICIAR_RAPIDO.bat** - Versão rápida sem verificações
+- **CRIAR_ATALHO.bat** - Cria atalho na área de trabalho
+- **build.bat** - Gera executável .exe
+
+👉 **[Guia completo Windows com .bat](README_WINDOWS.md)**
+
+---
+
 ## 🌐 Aplicação Web (Python)
 
-Se você tem Python instalado, pode executar direto:
+Se preferir executar manualmente:
 
 ```bash
 python app.py

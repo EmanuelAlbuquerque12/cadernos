@@ -1,41 +1,7 @@
-// ========================================
-// FUNÇÕES DE CONTROLE DA INTERFACE
-// ========================================
-
-// Toggle de etapas (expandir/recolher)
-function toggleStep(stepId) {
-    const content = document.getElementById('content-' + stepId);
-    content.classList.toggle('active');
-}
-
-// Atualizar valor do slider de workers
-function updateWorkers(value) {
-    document.getElementById('workers-value').textContent = value;
-}
-
-// Selecionar modo de download (tudo ou específico)
-function selectMode(mode) {
-    const specificSection = document.getElementById('specific-selection');
-
-    if (mode === 'specific') {
-        specificSection.style.display = 'block';
-    } else {
-        specificSection.style.display = 'none';
-    }
-}
-
-// ========================================
-// CONFIGURAÇÕES
-// ========================================
-
+// Função para salvar configurações
 function salvarConfig() {
     const pasta = document.getElementById('pasta_salvamento').value;
     const workers = document.getElementById('workers').value;
-
-    if (!pasta.trim()) {
-        alert('⚠️ Por favor, informe a pasta de salvamento!');
-        return;
-    }
 
     fetch('/api/config', {
         method: 'POST',
@@ -50,10 +16,6 @@ function salvarConfig() {
     .then(response => response.json())
     .then(data => {
         if (data.sucesso) {
-            // Atualiza badge de status
-            document.getElementById('status-step1').innerHTML =
-                '<span class="badge badge-success">✓ Configurado</span>';
-
             alert('✅ Configurações salvas com sucesso!');
             carregarEstatisticas();
         }
@@ -63,21 +25,18 @@ function salvarConfig() {
     });
 }
 
-// ========================================
-// SELEÇÃO DE TRIBUNAIS
-// ========================================
-
+// Função para filtrar tribunais
 function filtrarTribunais() {
     const termo = document.getElementById('busca_tribunal').value.toLowerCase();
-    const items = document.querySelectorAll('.tribunal-chip');
-    const grupos = document.querySelectorAll('.uf-group-compact');
+    const items = document.querySelectorAll('.tribunal-item');
+    const grupos = document.querySelectorAll('.uf-group');
 
     items.forEach(item => {
         const sigla = item.dataset.sigla.toLowerCase();
         const nome = item.dataset.nome.toLowerCase();
 
         if (sigla.includes(termo) || nome.includes(termo)) {
-            item.style.display = 'inline-block';
+            item.style.display = 'flex';
         } else {
             item.style.display = 'none';
         }
@@ -85,7 +44,7 @@ function filtrarTribunais() {
 
     // Esconde grupos vazios
     grupos.forEach(grupo => {
-        const visibleItems = grupo.querySelectorAll('.tribunal-chip[style*="inline-block"]');
+        const visibleItems = grupo.querySelectorAll('.tribunal-item[style="display: flex;"]');
         if (visibleItems.length === 0 && termo !== '') {
             grupo.style.display = 'none';
         } else {
@@ -94,16 +53,19 @@ function filtrarTribunais() {
     });
 }
 
+// Função para selecionar todos os tribunais
 function selecionarTodos() {
     const checkboxes = document.querySelectorAll('.tribunal-checkbox');
     checkboxes.forEach(cb => cb.checked = true);
 }
 
+// Função para desselecionar todos
 function deselecionarTodos() {
     const checkboxes = document.querySelectorAll('.tribunal-checkbox');
     checkboxes.forEach(cb => cb.checked = false);
 }
 
+// Função para selecionar tribunais superiores
 function selecionarSuperiores() {
     const superiores = ['STJ', 'STF', 'TST', 'TSE', 'STM', 'CNJ', 'CJF'];
     const checkboxes = document.querySelectorAll('.tribunal-checkbox');
@@ -113,28 +75,12 @@ function selecionarSuperiores() {
     });
 }
 
-// ========================================
-// DOWNLOAD
-// ========================================
-
+// Função para iniciar download
 function iniciarDownload() {
-    const mode = document.querySelector('input[name="download_mode"]:checked').value;
+    const checkboxes = document.querySelectorAll('.tribunal-checkbox:checked');
+    const tribunais = Array.from(checkboxes).map(cb => cb.value);
 
-    let tribunais = [];
-
-    if (mode === 'all') {
-        // Baixar de todos os tribunais
-        const allCheckboxes = document.querySelectorAll('.tribunal-checkbox');
-        allCheckboxes.forEach(cb => {
-            tribunais.push(cb.value);
-        });
-    } else {
-        // Baixar apenas selecionados
-        const checkboxes = document.querySelectorAll('.tribunal-checkbox:checked');
-        tribunais = Array.from(checkboxes).map(cb => cb.value);
-    }
-
-    if (tribunais.length === 0 && mode === 'specific') {
+    if (tribunais.length === 0) {
         alert('⚠️ Selecione pelo menos um tribunal!');
         return;
     }
@@ -142,17 +88,12 @@ function iniciarDownload() {
     const dataInicio = document.getElementById('data_inicio').value;
     const dataFim = document.getElementById('data_fim').value;
 
-    if (!dataInicio || !dataFim) {
-        alert('⚠️ Selecione as datas!');
-        return;
-    }
-
     // Converte datas para formato DD/MM/YYYY
-    const dataInicioFormatada = formatarData(dataInicio);
-    const dataFimFormatada = formatarData(dataFim);
+    const dataInicioFormatada = dataInicio ? formatarData(dataInicio) : null;
+    const dataFimFormatada = dataFim ? formatarData(dataFim) : null;
 
     // Tipos selecionados
-    const tiposCheckboxes = document.querySelectorAll('.checkbox-group-inline input[type="checkbox"]:checked');
+    const tiposCheckboxes = document.querySelectorAll('.checkbox-group input[type="checkbox"]:checked');
     const tipos = Array.from(tiposCheckboxes).map(cb => cb.value);
 
     if (tipos.length === 0) {
@@ -162,7 +103,7 @@ function iniciarDownload() {
 
     const btn = document.getElementById('btn_download');
     btn.disabled = true;
-    btn.innerHTML = '<span class="btn-icon">⏳</span> Iniciando...';
+    btn.textContent = '⏳ Iniciando...';
 
     fetch('/api/baixar', {
         method: 'POST',
@@ -184,16 +125,17 @@ function iniciarDownload() {
         } else {
             alert('❌ Erro: ' + data.erro);
             btn.disabled = false;
-            btn.innerHTML = '<span class="btn-icon">🚀</span> Iniciar Download';
+            btn.textContent = '🚀 Iniciar Download';
         }
     })
     .catch(error => {
         alert('❌ Erro ao iniciar download: ' + error);
         btn.disabled = false;
-        btn.innerHTML = '<span class="btn-icon">🚀</span> Iniciar Download';
+        btn.textContent = '🚀 Iniciar Download';
     });
 }
 
+// Função para verificar status do download
 function verificarStatus() {
     fetch('/api/status')
     .then(response => response.json())
@@ -209,27 +151,17 @@ function verificarStatus() {
 
             const btn = document.getElementById('btn_download');
             btn.disabled = true;
-            btn.innerHTML = '<span class="btn-icon">⏳</span> Download em andamento...';
-
-            // Atualiza badge
-            document.getElementById('status-step2').innerHTML =
-                '<span class="badge badge-info">Baixando...</span>';
+            btn.textContent = '⏳ Download em andamento...';
         } else {
             const statusBox = document.getElementById('download_status');
             if (statusBox && statusBox.style.display !== 'none') {
                 // Download terminou
                 const btn = document.getElementById('btn_download');
                 btn.disabled = false;
-                btn.innerHTML = '<span class="btn-icon">🚀</span> Iniciar Download';
+                btn.textContent = '🚀 Iniciar Download';
 
-                document.getElementById('status-step2').innerHTML =
-                    '<span class="badge badge-success">✓ Concluído</span>';
-
-                // Atualiza estatísticas e habilita busca
-                setTimeout(() => {
-                    carregarEstatisticas();
-                    verificarBuscaDisponivel();
-                }, 1000);
+                // Atualiza estatísticas
+                setTimeout(carregarEstatisticas, 1000);
             }
         }
     })
@@ -238,32 +170,82 @@ function verificarStatus() {
     });
 }
 
-// ========================================
-// BUSCA
-// ========================================
-
-function verificarBuscaDisponivel() {
+// Função para carregar estatísticas
+function carregarEstatisticas() {
     fetch('/api/estatisticas')
     .then(response => response.json())
     .then(data => {
-        const totalDocs = data.total_documentos;
+        const content = document.getElementById('estatisticas_content');
+        if (!content) return;
 
-        if (totalDocs > 0) {
-            // Habilita busca
-            document.getElementById('busca-disabled-msg').style.display = 'none';
-            document.getElementById('busca-enabled').style.display = 'block';
-            document.getElementById('badge-busca').className = 'badge badge-success';
-            document.getElementById('badge-busca').textContent = `${totalDocs} docs`;
-        } else {
-            // Desabilita busca
-            document.getElementById('busca-disabled-msg').style.display = 'block';
-            document.getElementById('busca-enabled').style.display = 'none';
-            document.getElementById('badge-busca').className = 'badge badge-disabled';
-            document.getElementById('badge-busca').textContent = 'Desabilitado';
+        let html = '<div class="estatisticas-grid">';
+
+        html += `
+            <div class="estatistica-item">
+                <span class="numero">${data.total_documentos}</span>
+                <span class="label">Documentos Baixados</span>
+            </div>
+        `;
+
+        html += `
+            <div class="estatistica-item">
+                <span class="numero">${data.tamanho_total_mb}</span>
+                <span class="label">MB Armazenados</span>
+            </div>
+        `;
+
+        html += `
+            <div class="estatistica-item">
+                <span class="numero">${Object.keys(data.por_tribunal).length}</span>
+                <span class="label">Tribunais</span>
+            </div>
+        `;
+
+        const totalEditais = data.por_tipo['E'] || 0;
+        const totalDiarios = data.por_tipo['D'] || 0;
+
+        html += `
+            <div class="estatistica-item">
+                <span class="numero">${totalEditais}</span>
+                <span class="label">Editais</span>
+            </div>
+        `;
+
+        html += `
+            <div class="estatistica-item">
+                <span class="numero">${totalDiarios}</span>
+                <span class="label">Diários</span>
+            </div>
+        `;
+
+        html += '</div>';
+
+        // Top 5 tribunais
+        if (Object.keys(data.por_tribunal).length > 0) {
+            const topTribunais = Object.entries(data.por_tribunal)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 5);
+
+            html += '<div class="info-grid" style="margin-top: 20px;">';
+            topTribunais.forEach(([sigla, count]) => {
+                html += `
+                    <div class="info-item">
+                        <strong>${sigla}</strong>
+                        <span>${count} documentos</span>
+                    </div>
+                `;
+            });
+            html += '</div>';
         }
+
+        content.innerHTML = html;
+    })
+    .catch(error => {
+        console.error('Erro ao carregar estatísticas:', error);
     });
 }
 
+// Função para realizar busca
 function realizarBusca() {
     const termo = document.getElementById('termo_busca').value.trim();
 
@@ -274,7 +256,7 @@ function realizarBusca() {
 
     const btn = document.getElementById('btn_buscar');
     btn.disabled = true;
-    btn.innerHTML = '<span class="btn-icon">⏳</span> Buscando...';
+    btn.textContent = '⏳ Buscando...';
 
     document.getElementById('busca_status').style.display = 'block';
     document.getElementById('resultados_card').style.display = 'none';
@@ -290,7 +272,7 @@ function realizarBusca() {
     .then(data => {
         document.getElementById('busca_status').style.display = 'none';
         btn.disabled = false;
-        btn.innerHTML = '<span class="btn-icon">🔎</span> Buscar';
+        btn.textContent = 'Buscar';
 
         exibirResultados(data);
     })
@@ -298,10 +280,11 @@ function realizarBusca() {
         alert('❌ Erro ao buscar: ' + error);
         document.getElementById('busca_status').style.display = 'none';
         btn.disabled = false;
-        btn.innerHTML = '<span class="btn-icon">🔎</span> Buscar';
+        btn.textContent = 'Buscar';
     });
 }
 
+// Função para exibir resultados da busca
 function exibirResultados(data) {
     const card = document.getElementById('resultados_card');
     const resumo = document.getElementById('resultados_resumo');
@@ -311,20 +294,18 @@ function exibirResultados(data) {
 
     // Resumo
     let htmlResumo = `
-        <span class="badge badge-info">${data.documentos_encontrados} documentos</span>
-        <span class="badge badge-success">${data.total_ocorrencias} ocorrências</span>
+        <h3>🎯 Termo: "${data.termo}"</h3>
+        <p><strong>${data.documentos_encontrados}</strong> documentos encontrados de ${data.total_documentos_analisados} analisados</p>
+        <p><strong>${data.total_ocorrencias}</strong> ocorrências encontradas no total</p>
     `;
     resumo.innerHTML = htmlResumo;
 
     // Lista de resultados
     if (data.resultados.length === 0) {
         lista.innerHTML = `
-            <div class="info-box info-warning">
-                <div class="info-icon">😕</div>
-                <div>
-                    <strong>Nenhum resultado encontrado</strong>
-                    <p>Termo "${data.termo}" não foi encontrado nos documentos baixados.</p>
-                </div>
+            <div class="alert alert-warning">
+                Nenhum resultado encontrado para "${data.termo}".
+                Tente outro termo ou baixe mais documentos.
             </div>
         `;
         return;
@@ -336,21 +317,18 @@ function exibirResultados(data) {
         const tamanhoKb = (resultado.tamanho / 1024).toFixed(2);
 
         htmlLista += `
-            <div class="resultado-card">
-                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px;">
-                    <div>
-                        <h4 style="color: var(--primary); margin-bottom: 5px;">
-                            ${resultado.sigla} - ${tipoNome}
-                        </h4>
-                        <p style="color: var(--text-light); font-size: 0.9em;">
-                            📅 ${formatarDataBR(resultado.data)} • 📄 ${tamanhoKb} KB
-                        </p>
-                    </div>
-                    <span class="badge badge-success" style="font-size: 1.1em;">
+            <div class="resultado-item">
+                <div class="resultado-header">
+                    <span class="resultado-tribunal">${resultado.sigla} - ${tipoNome}</span>
+                    <span class="resultado-ocorrencias">
                         ${resultado.ocorrencias} ocorrência${resultado.ocorrencias > 1 ? 's' : ''}
                     </span>
                 </div>
-                <div style="background: var(--bg-light); padding: 10px; border-radius: 8px; font-size: 0.85em; color: var(--text-light); word-break: break-all;">
+                <div class="resultado-info">
+                    <span>📅 ${formatarDataBR(resultado.data)}</span>
+                    <span>📄 ${tamanhoKb} KB</span>
+                </div>
+                <div class="resultado-arquivo">
                     📁 ${resultado.arquivo}
                 </div>
             </div>
@@ -360,32 +338,13 @@ function exibirResultados(data) {
     lista.innerHTML = htmlLista;
 }
 
-// ========================================
-// ESTATÍSTICAS
-// ========================================
-
-function carregarEstatisticas() {
-    fetch('/api/estatisticas')
-    .then(response => response.json())
-    .then(data => {
-        document.getElementById('stat-documentos').textContent = data.total_documentos;
-        document.getElementById('stat-tamanho').textContent = data.tamanho_total_mb + ' MB';
-        document.getElementById('stat-tribunais').textContent = Object.keys(data.por_tribunal).length;
-    })
-    .catch(error => {
-        console.error('Erro ao carregar estatísticas:', error);
-    });
-}
-
-// ========================================
-// UTILITÁRIOS
-// ========================================
-
+// Função para formatar data (YYYY-MM-DD para DD/MM/YYYY)
 function formatarData(dataISO) {
     const partes = dataISO.split('-');
     return `${partes[2]}/${partes[1]}/${partes[0]}`;
 }
 
+// Função para formatar data (DD-MM-YYYY para DD/MM/YYYY)
 function formatarDataBR(data) {
     return data.replace(/-/g, '/');
 }

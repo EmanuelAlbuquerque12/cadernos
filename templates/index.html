@@ -8,118 +8,282 @@
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>📚 Baixador de Cadernos PJe</h1>
-            <p>Download automatizado de Editais e Diários Eletrônicos</p>
+        <header class="main-header">
+            <div class="logo-section">
+                <div class="logo">⚖️</div>
+                <div>
+                    <h1>Baixador de Cadernos PJe</h1>
+                    <p>Sistema completo de download e busca de documentos judiciais</p>
+                </div>
+            </div>
         </header>
 
-        <nav class="tabs">
-            <a href="/" class="tab active">Download</a>
-            <a href="/busca" class="tab">Buscar Documentos</a>
-        </nav>
-
-        <div class="card">
-            <h2>⚙️ Configurações</h2>
-            <div class="form-group">
-                <label for="pasta_salvamento">Pasta de Salvamento:</label>
-                <div class="input-with-button">
-                    <input type="text" id="pasta_salvamento" value="{{ config.pasta_salvamento }}" placeholder="/caminho/para/salvar">
-                    <button onclick="salvarConfig()" class="btn btn-secondary">Salvar Pasta</button>
+        <!-- ETAPA 1: CONFIGURAÇÃO -->
+        <section class="step-card" id="step1">
+            <div class="step-header" onclick="toggleStep('step1')">
+                <div class="step-number">1</div>
+                <div class="step-info">
+                    <h2>⚙️ Configuração</h2>
+                    <p>Defina onde salvar os arquivos</p>
                 </div>
-                <small>Os arquivos serão salvos nesta pasta no seu computador</small>
-            </div>
-
-            <div class="form-group">
-                <label for="workers">Downloads Paralelos:</label>
-                <input type="number" id="workers" value="{{ config.workers }}" min="1" max="20">
-                <small>Número de downloads simultâneos (recomendado: 5)</small>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>📥 Baixar Cadernos</h2>
-
-            <div class="form-group">
-                <label>Período:</label>
-                <div class="date-range">
-                    <input type="date" id="data_inicio" placeholder="Data Início">
-                    <span>até</span>
-                    <input type="date" id="data_fim" placeholder="Data Fim">
-                </div>
-                <small>Deixe em branco para baixar apenas de hoje</small>
-            </div>
-
-            <div class="form-group">
-                <label>Tipos de Caderno:</label>
-                <div class="checkbox-group">
-                    <label><input type="checkbox" value="E" checked> Editais</label>
-                    <label><input type="checkbox" value="D" checked> Diários Eletrônicos</label>
+                <div class="step-status" id="status-step1">
+                    <span class="badge badge-pending">Pendente</span>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label>Selecionar Tribunais:</label>
-                <div class="search-box">
-                    <input type="text" id="busca_tribunal" placeholder="Buscar tribunal por sigla ou nome..." onkeyup="filtrarTribunais()">
+            <div class="step-content" id="content-step1">
+                <div class="form-group">
+                    <label for="pasta_salvamento">
+                        📁 Pasta de Salvamento
+                    </label>
+                    <div class="input-with-button">
+                        <input type="text" id="pasta_salvamento"
+                               value="{{ config.pasta_salvamento }}"
+                               placeholder="C:\Users\SeuUsuario\Documents\Cadernos">
+                        <button onclick="salvarConfig()" class="btn btn-primary">
+                            Salvar
+                        </button>
+                    </div>
+                    <small>💡 Os cadernos serão organizados automaticamente por tribunal/ano/mês</small>
                 </div>
 
-                <div class="tribunal-filters">
-                    <button onclick="selecionarTodos()" class="btn btn-small">Selecionar Todos</button>
-                    <button onclick="deselecionarTodos()" class="btn btn-small">Limpar Seleção</button>
-                    <button onclick="selecionarSuperiores()" class="btn btn-small">Tribunais Superiores</button>
-                </div>
-
-                <div class="tribunais-list" id="tribunais_list">
-                    {% for uf, tribunais in tribunais_por_uf.items() %}
-                    <div class="uf-group" data-uf="{{ uf }}">
-                        <h3>{{ uf }}</h3>
-                        <div class="tribunais-grid">
-                            {% for tribunal in tribunais %}
-                            <label class="tribunal-item" data-sigla="{{ tribunal.sigla }}" data-nome="{{ tribunal.nome }}">
-                                <input type="checkbox" class="tribunal-checkbox" value="{{ tribunal.sigla }}">
-                                <div class="tribunal-info">
-                                    <strong>{{ tribunal.sigla }}</strong>
-                                    <span>{{ tribunal.nome }}</span>
-                                </div>
-                            </label>
-                            {% endfor %}
+                <div class="form-group">
+                    <label for="workers">
+                        ⚡ Velocidade de Download
+                    </label>
+                    <div class="slider-container">
+                        <input type="range" id="workers" value="{{ config.workers }}"
+                               min="1" max="10" oninput="updateWorkers(this.value)">
+                        <div class="slider-labels">
+                            <span>Lento</span>
+                            <span id="workers-value" class="badge">{{ config.workers }}</span>
+                            <span>Rápido</span>
                         </div>
                     </div>
-                    {% endfor %}
+                    <small>💡 Downloads simultâneos (Recomendado: 5)</small>
+                </div>
+            </div>
+        </section>
+
+        <!-- ETAPA 2: DOWNLOAD -->
+        <section class="step-card" id="step2">
+            <div class="step-header" onclick="toggleStep('step2')">
+                <div class="step-number">2</div>
+                <div class="step-info">
+                    <h2>📥 Download de Cadernos</h2>
+                    <p>Escolha o que deseja baixar</p>
+                </div>
+                <div class="step-status" id="status-step2">
+                    <span class="badge badge-info">{{ total_documentos }} docs</span>
                 </div>
             </div>
 
-            <button onclick="iniciarDownload()" class="btn btn-primary" id="btn_download">
-                🚀 Iniciar Download
-            </button>
+            <div class="step-content active" id="content-step2">
+                <!-- MODO DE DOWNLOAD -->
+                <div class="download-mode-selector">
+                    <label class="mode-option" onclick="selectMode('all')">
+                        <input type="radio" name="download_mode" value="all" id="mode_all" checked>
+                        <div class="mode-card">
+                            <div class="mode-icon">🌐</div>
+                            <h3>Baixar Tudo</h3>
+                            <p>Todos os tribunais do período selecionado</p>
+                            <span class="mode-badge">Recomendado</span>
+                        </div>
+                    </label>
 
-            <div id="download_status" class="status-box" style="display: none;">
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progress_fill"></div>
+                    <label class="mode-option" onclick="selectMode('specific')">
+                        <input type="radio" name="download_mode" value="specific" id="mode_specific">
+                        <div class="mode-card">
+                            <div class="mode-icon">🎯</div>
+                            <h3>Caderno Específico</h3>
+                            <p>Escolha tribunais e datas específicas</p>
+                        </div>
+                    </label>
                 </div>
-                <p id="status_mensagem"></p>
-                <p id="status_progresso"></p>
-            </div>
-        </div>
 
-        <div class="card" id="estatisticas_card">
-            <h2>📊 Estatísticas</h2>
-            <div id="estatisticas_content">
-                <p>Carregando estatísticas...</p>
+                <!-- CONFIGURAÇÕES BÁSICAS -->
+                <div class="config-section">
+                    <div class="form-row">
+                        <div class="form-group flex-1">
+                            <label>📅 Período</label>
+                            <div class="date-inputs">
+                                <input type="date" id="data_inicio">
+                                <span class="separator">→</span>
+                                <input type="date" id="data_fim">
+                            </div>
+                            <small>💡 Deixe igual para baixar apenas um dia</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label>📄 Tipos</label>
+                            <div class="checkbox-group-inline">
+                                <label class="checkbox-card">
+                                    <input type="checkbox" value="E" checked>
+                                    <span>📰 Editais</span>
+                                </label>
+                                <label class="checkbox-card">
+                                    <input type="checkbox" value="D" checked>
+                                    <span>📋 Diários</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SELEÇÃO ESPECÍFICA (OCULTO POR PADRÃO) -->
+                <div class="specific-selection" id="specific-selection" style="display: none;">
+                    <div class="search-box-inline">
+                        <input type="text" id="busca_tribunal"
+                               placeholder="🔍 Buscar tribunal por sigla ou nome..."
+                               onkeyup="filtrarTribunais()">
+                    </div>
+
+                    <div class="quick-filters">
+                        <button onclick="selecionarSuperiores()" class="btn btn-sm">
+                            ⭐ Superiores
+                        </button>
+                        <button onclick="selecionarTodos()" class="btn btn-sm">
+                            ✓ Todos
+                        </button>
+                        <button onclick="deselecionarTodos()" class="btn btn-sm">
+                            ✗ Limpar
+                        </button>
+                    </div>
+
+                    <div class="tribunais-compact" id="tribunais_list">
+                        {% for uf, tribunais in tribunais_por_uf.items() %}
+                        <div class="uf-group-compact" data-uf="{{ uf }}">
+                            <div class="uf-header">{{ uf }}</div>
+                            <div class="tribunais-chips">
+                                {% for tribunal in tribunais %}
+                                <label class="tribunal-chip"
+                                       data-sigla="{{ tribunal.sigla }}"
+                                       data-nome="{{ tribunal.nome }}">
+                                    <input type="checkbox" class="tribunal-checkbox"
+                                           value="{{ tribunal.sigla }}">
+                                    <span class="chip-label">{{ tribunal.sigla }}</span>
+                                    <span class="chip-tooltip">{{ tribunal.nome }}</span>
+                                </label>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- BOTÃO DOWNLOAD -->
+                <div class="action-bar">
+                    <button onclick="iniciarDownload()" class="btn btn-large btn-success" id="btn_download">
+                        <span class="btn-icon">🚀</span>
+                        Iniciar Download
+                    </button>
+                </div>
+
+                <!-- STATUS DO DOWNLOAD -->
+                <div id="download_status" class="status-card" style="display: none;">
+                    <div class="status-header">
+                        <div class="spinner"></div>
+                        <div>
+                            <h4 id="status_mensagem">Preparando...</h4>
+                            <p id="status_progresso">0 de 0</p>
+                        </div>
+                    </div>
+                    <div class="progress-bar-new">
+                        <div class="progress-fill-new" id="progress_fill"></div>
+                    </div>
+                </div>
             </div>
-        </div>
+        </section>
+
+        <!-- ETAPA 3: BUSCA -->
+        <section class="step-card" id="step3">
+            <div class="step-header" onclick="toggleStep('step3')">
+                <div class="step-number">3</div>
+                <div class="step-info">
+                    <h2>🔍 Buscar nos Documentos</h2>
+                    <p>Encontre termos nos cadernos baixados</p>
+                </div>
+                <div class="step-status" id="status-step3">
+                    <span class="badge badge-disabled" id="badge-busca">Desabilitado</span>
+                </div>
+            </div>
+
+            <div class="step-content" id="content-step3">
+                <div id="busca-disabled-msg" class="info-box info-warning">
+                    <div class="info-icon">⚠️</div>
+                    <div>
+                        <strong>Busca desabilitada</strong>
+                        <p>Faça o download de alguns cadernos primeiro para habilitar a busca.</p>
+                    </div>
+                </div>
+
+                <div id="busca-enabled" style="display: none;">
+                    <div class="search-box-large">
+                        <input type="text" id="termo_busca"
+                               placeholder="Digite o termo que deseja buscar... (ex: CPF, nome, processo)"
+                               onkeypress="if(event.key==='Enter') realizarBusca()">
+                        <button onclick="realizarBusca()" class="btn btn-primary" id="btn_buscar">
+                            <span class="btn-icon">🔎</span>
+                            Buscar
+                        </button>
+                    </div>
+
+                    <div id="busca_status" class="status-card" style="display: none;">
+                        <div class="spinner"></div>
+                        <p>Buscando nos documentos...</p>
+                    </div>
+
+                    <!-- RESULTADOS -->
+                    <div id="resultados_card" style="display: none;">
+                        <div class="resultados-header">
+                            <h3>📊 Resultados</h3>
+                            <div id="resultados_resumo" class="resumo-badges"></div>
+                        </div>
+                        <div id="resultados_list" class="resultados-grid"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ESTATÍSTICAS -->
+        <section class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-icon">📄</div>
+                <div class="stat-info">
+                    <div class="stat-value" id="stat-documentos">{{ total_documentos }}</div>
+                    <div class="stat-label">Documentos</div>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon">📁</div>
+                <div class="stat-info">
+                    <div class="stat-value" id="stat-tamanho">0 MB</div>
+                    <div class="stat-label">Armazenados</div>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon">⚖️</div>
+                <div class="stat-info">
+                    <div class="stat-value" id="stat-tribunais">0</div>
+                    <div class="stat-label">Tribunais</div>
+                </div>
+            </div>
+        </section>
     </div>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
     <script>
         // Inicializa
-        carregarEstatisticas();
-        setInterval(verificarStatus, 1000);
+        document.addEventListener('DOMContentLoaded', function() {
+            carregarEstatisticas();
+            verificarBuscaDisponivel();
+            setInterval(verificarStatus, 1000);
 
-        // Define data de hoje como padrão
-        const hoje = new Date().toISOString().split('T')[0];
-        document.getElementById('data_inicio').value = hoje;
-        document.getElementById('data_fim').value = hoje;
+            // Define data de hoje
+            const hoje = new Date().toISOString().split('T')[0];
+            document.getElementById('data_inicio').value = hoje;
+            document.getElementById('data_fim').value = hoje;
+        });
     </script>
 </body>
 </html>

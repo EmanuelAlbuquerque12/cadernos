@@ -103,6 +103,7 @@ def index():
     """Página principal"""
     config = carregar_config()
     tribunais = bc.BaixadorCadernos().carregar_tribunais()
+    indice = carregar_indice()
 
     # Agrupa por UF
     tribunais_por_uf = {}
@@ -114,19 +115,8 @@ def index():
 
     return render_template('index.html',
                          config=config,
-                         tribunais_por_uf=tribunais_por_uf)
-
-
-@app.route('/busca')
-def busca():
-    """Página de busca"""
-    config = carregar_config()
-    indice = carregar_indice()
-
-    return render_template('busca.html',
-                         config=config,
-                         total_documentos=len(indice['documentos']),
-                         ultima_atualizacao=indice['ultima_atualizacao'])
+                         tribunais_por_uf=tribunais_por_uf,
+                         total_documentos=len(indice['documentos']))
 
 
 @app.route('/api/config', methods=['GET', 'POST'])

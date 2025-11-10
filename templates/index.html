@@ -1,252 +1,776 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baixador de Cadernos PJe</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Baixador PJe • Cadernos Judiciais</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        :root {
+            --primary: #1e40af;
+            --primary-light: #3b82f6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-600: #4b5563;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --transition: all 0.2s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: var(--gray-800);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 2rem 1rem;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .logo {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        h1 {
+            font-size: 1.75rem;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        p.subtitle {
+            color: var(--gray-600);
+            font-size: 1rem;
+        }
+
+        .steps {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .step-card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .step-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .step-header {
+            padding: 1rem 1.5rem;
+            background: var(--gray-100);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .step-number {
+            background: var(--primary);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .step-info {
+            flex: 1;
+        }
+
+        .step-info h2 {
+            font-size: 1.2rem;
+            color: var(--gray-900);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .step-info p {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            margin-top: 0.25rem;
+        }
+
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-pending { background: var(--warning); color: white; }
+        .badge-success { background: var(--success); color: white; }
+        .badge-info { background: var(--primary-light); color: white; }
+        .badge-disabled { background: var(--gray-300); color: var(--gray-600); }
+
+        .step-content {
+            padding: 1.5rem;
+            display: none;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        .step-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--gray-800);
+        }
+
+        input[type="text"],
+        input[type="date"] {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .input-with-button {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+            font-size: 1.1rem;
+            padding: 1rem 2rem;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.85rem;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        input[type="range"] {
+            flex: 1;
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--gray-600);
+            margin-top: 0.5rem;
+        }
+
+        .download-mode-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .mode-option {
+            cursor: pointer;
+        }
+
+        .mode-option input {
+            display: none;
+        }
+
+        .mode-card {
+            padding: 1.5rem;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .mode-option input:checked + .mode-card {
+            border-color: var(--primary);
+            background: #eff6ff;
+        }
+
+        .mode-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .mode-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .mode-card p {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+        }
+
+        .mode-badge {
+            background: var(--success);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            margin-top: 0.5rem;
+            display: inline-block;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .date-inputs {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .separator {
+            color: var(--gray-400);
+        }
+
+        .checkbox-group-inline {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .checkbox-card {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .checkbox-card:hover {
+            border-color: var(--primary);
+        }
+
+        .checkbox-card input {
+            cursor: pointer;
+        }
+
+        .checkbox-card input:checked + span {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .specific-selection {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: var(--gray-100);
+            border-radius: var(--radius);
+        }
+
+        .search-box-inline input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius);
+        }
+
+        .quick-filters {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .tribunais-compact {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius);
+            padding: 0.5rem;
+        }
+
+        .uf-group-compact {
+            margin-bottom: 0.75rem;
+        }
+
+        .uf-header {
+            font-weight: 600;
+            padding: 0.5rem;
+            background: var(--gray-200);
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .tribunais-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 0.5rem;
+        }
+
+        .tribunal-chip {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .tribunal-chip input {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .chip-label {
+            display: block;
+            padding: 0.5rem 0.75rem;
+            background: white;
+            border: 1px solid var(--gray-300);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            transition: var(--transition);
+        }
+
+        .tribunal-chip:hover .chip-label {
+            border-color: var(--primary);
+        }
+
+        .tribunal-chip input:checked + .chip-label {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .chip-tooltip {
+            visibility: hidden;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gray-800);
+            color: white;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            z-index: 10;
+            opacity: 0;
+            transition: var(--transition);
+            pointer-events: none;
+        }
+
+        .tribunal-chip:hover .chip-tooltip {
+            visibility: visible;
+            opacity: 1;
+            bottom: calc(100% + 8px);
+        }
+
+        .action-bar {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .status-card {
+            padding: 1.5rem;
+            background: var(--gray-100);
+            border-radius: var(--radius);
+            text-align: center;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--gray-300);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .progress-bar-new {
+            height: 8px;
+            background: var(--gray-200);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .progress-fill-new {
+            height: 100%;
+            background: var(--success);
+            width: 0%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            text-align: center;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-icon {
+            font-size: 1.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+        }
+
+        .info-box {
+            padding: 1rem;
+            border-radius: var(--radius);
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+        }
+
+        .info-icon {
+            font-size: 1.5rem;
+        }
+
+        .search-box-large {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-box-large input {
+            flex: 1;
+        }
+
+        .resultados-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--gray-200);
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .date-inputs {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .separator {
+                display: none;
+            }
+
+            .download-mode-selector {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <header class="main-header">
-            <div class="logo-section">
-                <div class="logo">⚖️</div>
-                <div>
-                    <h1>Baixador de Cadernos PJe</h1>
-                    <p>Sistema completo de download e busca de documentos judiciais</p>
-                </div>
-            </div>
+        <!-- Header -->
+        <header>
+            <div class="logo">⚖️</div>
+            <h1>Baixador de Cadernos PJe</h1>
+            <p class="subtitle">Download automático e busca inteligente em diários e editais judiciais</p>
         </header>
 
-        <!-- ETAPA 1: CONFIGURAÇÃO -->
-        <section class="step-card" id="step1">
-            <div class="step-header" onclick="toggleStep('step1')">
-                <div class="step-number">1</div>
-                <div class="step-info">
-                    <h2>⚙️ Configuração</h2>
-                    <p>Defina onde salvar os arquivos</p>
-                </div>
-                <div class="step-status" id="status-step1">
-                    <span class="badge badge-pending">Pendente</span>
-                </div>
-            </div>
-
-            <div class="step-content" id="content-step1">
-                <div class="form-group">
-                    <label for="pasta_salvamento">
-                        📁 Pasta de Salvamento
-                    </label>
-                    <div class="input-with-button">
-                        <input type="text" id="pasta_salvamento"
-                               value="{{ config.pasta_salvamento }}"
-                               placeholder="C:\Users\SeuUsuario\Documents\Cadernos">
-                        <button onclick="salvarConfig()" class="btn btn-primary">
-                            Salvar
-                        </button>
+        <div class="steps">
+            <!-- ETAPA 1: Configuração -->
+            <section class="step-card" id="step1">
+                <div class="step-header" onclick="toggleStep('step1')" tabindex="0" role="button" aria-expanded="false">
+                    <div class="step-number">1</div>
+                    <div class="step-info">
+                        <h2><i class="fas fa-cog"></i> Configuração</h2>
+                        <p>Defina pasta e velocidade</p>
                     </div>
-                    <small>💡 Os cadernos serão organizados automaticamente por tribunal/ano/mês</small>
+                    <div class="step-status" id="status-step1">
+                        <span class="badge badge-pending">Pendente</span>
+                    </div>
                 </div>
+                <div class="step-content" id="content-step1">
+                    <div class="form-group">
+                        <label for="pasta_salvamento"><i class="fas fa-folder"></i> Pasta de Salvamento</label>
+                        <div class="input-with-button">
+                            <input type="text" id="pasta_salvamento" value="{{ config.pasta_salvamento }}" placeholder="Ex: C:\Cadernos PJe">
+                            <button onclick="salvarConfig()" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Salvar
+                            </button>
+                        </div>
+                        <small>Organizado por tribunal/ano/mês</small>
+                    </div>
 
-                <div class="form-group">
-                    <label for="workers">
-                        ⚡ Velocidade de Download
-                    </label>
-                    <div class="slider-container">
-                        <input type="range" id="workers" value="{{ config.workers }}"
-                               min="1" max="10" oninput="updateWorkers(this.value)">
+                    <div class="form-group">
+                        <label for="workers"><i class="fas fa-tachometer-alt"></i> Velocidade</label>
+                        <div class="slider-container">
+                            <input type="range" id="workers" value="{{ config.workers }}" min="1" max="10" oninput="updateWorkers(this.value)">
+                            <span id="workers-value" class="badge badge-info">{{ config.workers }}</span>
+                        </div>
                         <div class="slider-labels">
                             <span>Lento</span>
-                            <span id="workers-value" class="badge">{{ config.workers }}</span>
                             <span>Rápido</span>
                         </div>
+                        <small>Downloads simultâneos (recomendado: 5)</small>
                     </div>
-                    <small>💡 Downloads simultâneos (Recomendado: 5)</small>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- ETAPA 2: DOWNLOAD -->
-        <section class="step-card" id="step2">
-            <div class="step-header" onclick="toggleStep('step2')">
-                <div class="step-number">2</div>
-                <div class="step-info">
-                    <h2>📥 Download de Cadernos</h2>
-                    <p>Escolha o que deseja baixar</p>
+            <!-- ETAPA 2: Download -->
+            <section class="step-card" id="step2">
+                <div class="step-header" onclick="toggleStep('step2')" tabindex="0" role="button" aria-expanded="true">
+                    <div class="step-number">2</div>
+                    <div class="step-info">
+                        <h2><i class="fas fa-download"></i> Download</h2>
+                        <p>Selecione período e tribunais</p>
+                    </div>
+                    <div class="step-status" id="status-step2">
+                        <span class="badge badge-info">{{ total_documentos }} docs</span>
+                    </div>
                 </div>
-                <div class="step-status" id="status-step2">
-                    <span class="badge badge-info">{{ total_documentos }} docs</span>
-                </div>
-            </div>
-
-            <div class="step-content active" id="content-step2">
-                <!-- MODO DE DOWNLOAD -->
-                <div class="download-mode-selector">
-                    <label class="mode-option" onclick="selectMode('all')">
-                        <input type="radio" name="download_mode" value="all" id="mode_all" checked>
-                        <div class="mode-card">
-                            <div class="mode-icon">🌐</div>
-                            <h3>Baixar Tudo</h3>
-                            <p>Todos os tribunais do período selecionado</p>
-                            <span class="mode-badge">Recomendado</span>
-                        </div>
-                    </label>
-
-                    <label class="mode-option" onclick="selectMode('specific')">
-                        <input type="radio" name="download_mode" value="specific" id="mode_specific">
-                        <div class="mode-card">
-                            <div class="mode-icon">🎯</div>
-                            <h3>Caderno Específico</h3>
-                            <p>Escolha tribunais e datas específicas</p>
-                        </div>
-                    </label>
-                </div>
-
-                <!-- CONFIGURAÇÕES BÁSICAS -->
-                <div class="config-section">
-                    <div class="form-row">
-                        <div class="form-group flex-1">
-                            <label>📅 Período</label>
-                            <div class="date-inputs">
-                                <input type="date" id="data_inicio">
-                                <span class="separator">→</span>
-                                <input type="date" id="data_fim">
+                <div class="step-content active" id="content-step2">
+                    <div class="download-mode-selector">
+                        <label class="mode-option">
+                            <input type="radio" name="download_mode" value="all" checked onchange="selectMode('all')">
+                            <div class="mode-card">
+                                <div class="mode-icon">🌐</div>
+                                <h3>Baixar Tudo</h3>
+                                <p>Todos os tribunais no período</p>
+                                <span class="mode-badge">Recomendado</span>
                             </div>
-                            <small>💡 Deixe igual para baixar apenas um dia</small>
-                        </div>
+                        </label>
+                        <label class="mode-option">
+                            <input type="radio" name="download_mode" value="specific" onchange="selectMode('specific')">
+                            <div class="mode-card">
+                                <div class="mode-icon">🎯</div>
+                                <h3>Caderno Específico</h3>
+                                <p>Escolha tribunais manualmente</p>
+                            </div>
+                        </label>
+                    </div>
 
-                        <div class="form-group">
-                            <label>📄 Tipos</label>
-                            <div class="checkbox-group-inline">
-                                <label class="checkbox-card">
-                                    <input type="checkbox" value="E" checked>
-                                    <span>📰 Editais</span>
-                                </label>
-                                <label class="checkbox-card">
-                                    <input type="checkbox" value="D" checked>
-                                    <span>📋 Diários</span>
-                                </label>
+                    <div class="config-section">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label><i class="fas fa-calendar"></i> Período</label>
+                                <div class="date-inputs">
+                                    <input type="date" id="data_inicio">
+                                    <span class="separator">→</span>
+                                    <input type="date" id="data_fim">
+                                </div>
+                                <small>Igual = apenas um dia</small>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-file-alt"></i> Tipos</label>
+                                <div class="checkbox-group-inline">
+                                    <label class="checkbox-card">
+                                        <input type="checkbox" value="E" checked>
+                                        <span>📰 Editais</span>
+                                    </label>
+                                    <label class="checkbox-card">
+                                        <input type="checkbox" value="D" checked>
+                                        <span>📋 Diários</span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- SELEÇÃO ESPECÍFICA (OCULTO POR PADRÃO) -->
-                <div class="specific-selection" id="specific-selection" style="display: none;">
-                    <div class="search-box-inline">
-                        <input type="text" id="busca_tribunal"
-                               placeholder="🔍 Buscar tribunal por sigla ou nome..."
-                               onkeyup="filtrarTribunais()">
-                    </div>
-
-                    <div class="quick-filters">
-                        <button onclick="selecionarSuperiores()" class="btn btn-sm">
-                            ⭐ Superiores
-                        </button>
-                        <button onclick="selecionarTodos()" class="btn btn-sm">
-                            ✓ Todos
-                        </button>
-                        <button onclick="deselecionarTodos()" class="btn btn-sm">
-                            ✗ Limpar
-                        </button>
-                    </div>
-
-                    <div class="tribunais-compact" id="tribunais_list">
-                        {% for uf, tribunais in tribunais_por_uf.items() %}
-                        <div class="uf-group-compact" data-uf="{{ uf }}">
-                            <div class="uf-header">{{ uf }}</div>
-                            <div class="tribunais-chips">
-                                {% for tribunal in tribunais %}
-                                <label class="tribunal-chip"
-                                       data-sigla="{{ tribunal.sigla }}"
-                                       data-nome="{{ tribunal.nome }}">
-                                    <input type="checkbox" class="tribunal-checkbox"
-                                           value="{{ tribunal.sigla }}">
-                                    <span class="chip-label">{{ tribunal.sigla }}</span>
-                                    <span class="chip-tooltip">{{ tribunal.nome }}</span>
-                                </label>
-                                {% endfor %}
-                            </div>
+                    <div class="specific-selection" id="specific-selection" style="display: none;">
+                        <div class="search-box-inline">
+                            <input type="text" id="busca_tribunal" placeholder="🔍 Buscar tribunal..." onkeyup="filtrarTribunais()">
                         </div>
-                        {% endfor %}
+                        <div class="quick-filters">
+                            <button onclick="selecionarSuperiores()" class="btn btn-sm">⭐ Superiores</button>
+                            <button onclick="selecionarTodos()" class="btn btn-sm">✓ Todos</button>
+                            <button onclick="deselecionarTodos()" class="btn btn-sm">✗ Limpar</button>
+                        </div>
+                        <div class="tribunais-compact" id="tribunais_list">
+                            {% for uf, tribunais in tribunais_por_uf.items() %}
+                            <div class="uf-group-compact">
+                                <div class="uf-header">{{ uf }}</div>
+                                <div class="tribunais-chips">
+                                    {% for tribunal in tribunais %}
+                                    <label class="tribunal-chip" data-sigla="{{ tribunal.sigla }}" data-nome="{{ tribunal.nome }}">
+                                        <input type="checkbox" class="tribunal-checkbox" value="{{ tribunal.sigla }}">
+                                        <span class="chip-label">{{ tribunal.sigla }}</span>
+                                        <span class="chip-tooltip">{{ tribunal.nome }}</span>
+                                    </label>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
                     </div>
-                </div>
 
-                <!-- BOTÃO DOWNLOAD -->
-                <div class="action-bar">
-                    <button onclick="iniciarDownload()" class="btn btn-large btn-success" id="btn_download">
-                        <span class="btn-icon">🚀</span>
-                        Iniciar Download
-                    </button>
-                </div>
+                    <div class="action-bar">
+                        <button onclick="iniciarDownload()" class="btn btn-success" id="btn_download">
+                            <i class="fas fa-rocket"></i> Iniciar Download
+                        </button>
+                    </div>
 
-                <!-- STATUS DO DOWNLOAD -->
-                <div id="download_status" class="status-card" style="display: none;">
-                    <div class="status-header">
+                    <div id="download_status" class="status-card" style="display: none;">
                         <div class="spinner"></div>
+                        <h4 id="status_mensagem">Preparando download...</h4>
+                        <p id="status_progresso">0 de 0</p>
+                        <div class="progress-bar-new">
+                            <div class="progress-fill-new" id="progress_fill"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ETAPA 3: Busca -->
+            <section class="step-card" id="step3">
+                <div class="step-header" onclick="toggleStep('step3')" tabindex="0" role="button" aria-expanded="false">
+                    <div class="step-number">3</div>
+                    <div class="step-info">
+                        <h2><i class="fas fa-search"></i> Buscar</h2>
+                        <p>Encontre termos nos PDFs baixados</p>
+                    </div>
+                    <div class="step-status" id="status-step3">
+                        <span class="badge badge-disabled" id="badge-busca">Desabilitado</span>
+                    </div>
+                </div>
+                <div class="step-content" id="content-step3">
+                    <div id="busca-disabled-msg" class="info-box info-warning">
+                        <div class="info-icon">⚠️</div>
                         <div>
-                            <h4 id="status_mensagem">Preparando...</h4>
-                            <p id="status_progresso">0 de 0</p>
+                            <strong>Busca desabilitada</strong>
+                            <p>Baixe cadernos primeiro para habilitar a busca.</p>
                         </div>
                     </div>
-                    <div class="progress-bar-new">
-                        <div class="progress-fill-new" id="progress_fill"></div>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <!-- ETAPA 3: BUSCA -->
-        <section class="step-card" id="step3">
-            <div class="step-header" onclick="toggleStep('step3')">
-                <div class="step-number">3</div>
-                <div class="step-info">
-                    <h2>🔍 Buscar nos Documentos</h2>
-                    <p>Encontre termos nos cadernos baixados</p>
-                </div>
-                <div class="step-status" id="status-step3">
-                    <span class="badge badge-disabled" id="badge-busca">Desabilitado</span>
-                </div>
-            </div>
-
-            <div class="step-content" id="content-step3">
-                <div id="busca-disabled-msg" class="info-box info-warning">
-                    <div class="info-icon">⚠️</div>
-                    <div>
-                        <strong>Busca desabilitada</strong>
-                        <p>Faça o download de alguns cadernos primeiro para habilitar a busca.</p>
-                    </div>
-                </div>
-
-                <div id="busca-enabled" style="display: none;">
-                    <div class="search-box-large">
-                        <input type="text" id="termo_busca"
-                               placeholder="Digite o termo que deseja buscar... (ex: CPF, nome, processo)"
-                               onkeypress="if(event.key==='Enter') realizarBusca()">
-                        <button onclick="realizarBusca()" class="btn btn-primary" id="btn_buscar">
-                            <span class="btn-icon">🔎</span>
-                            Buscar
-                        </button>
-                    </div>
-
-                    <div id="busca_status" class="status-card" style="display: none;">
-                        <div class="spinner"></div>
-                        <p>Buscando nos documentos...</p>
-                    </div>
-
-                    <!-- RESULTADOS -->
-                    <div id="resultados_card" style="display: none;">
-                        <div class="resultados-header">
-                            <h3>📊 Resultados</h3>
-                            <div id="resultados_resumo" class="resumo-badges"></div>
+                    <div id="busca-enabled" style="display: none;">
+                        <div class="search-box-large">
+                            <input type="text" id="termo_busca" placeholder="Ex: 123.456.789-00, João Silva, 0001234-56.2024..." onkeypress="if(event.key==='Enter') realizarBusca()">
+                            <button onclick="realizarBusca()" class="btn btn-primary">
+                                <i class="fas fa-search"></i> Buscar
+                            </button>
                         </div>
-                        <div id="resultados_list" class="resultados-grid"></div>
+
+                        <div id="busca_status" class="status-card" style="display: none;">
+                            <div class="spinner"></div>
+                            <p>Buscando nos documentos...</p>
+                        </div>
+
+                        <div id="resultados_card" style="display: none;">
+                            <div class="resultados-header">
+                                <h3>📊 Resultados</h3>
+                                <div id="resultados_resumo"></div>
+                            </div>
+                            <div id="resultados_list"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
+        </div>
 
-        <!-- ESTATÍSTICAS -->
-        <section class="stats-bar">
+        <!-- Estatísticas -->
+        <div class="stats-bar">
             <div class="stat-item">
                 <div class="stat-icon">📄</div>
                 <div class="stat-info">
@@ -255,7 +779,7 @@
                 </div>
             </div>
             <div class="stat-item">
-                <div class="stat-icon">📁</div>
+                <div class="stat-icon">💾</div>
                 <div class="stat-info">
                     <div class="stat-value" id="stat-tamanho">0 MB</div>
                     <div class="stat-label">Armazenados</div>
@@ -268,22 +792,36 @@
                     <div class="stat-label">Tribunais</div>
                 </div>
             </div>
-        </section>
+        </div>
     </div>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
     <script>
-        // Inicializa
-        document.addEventListener('DOMContentLoaded', function() {
-            carregarEstatisticas();
-            verificarBuscaDisponivel();
-            setInterval(verificarStatus, 1000);
-
-            // Define data de hoje
+        document.addEventListener('DOMContentLoaded', () => {
             const hoje = new Date().toISOString().split('T')[0];
             document.getElementById('data_inicio').value = hoje;
             document.getElementById('data_fim').value = hoje;
+
+            carregarEstatisticas();
+            verificarBuscaDisponivel();
+            setInterval(verificarStatus, 1000);
         });
+
+        function toggleStep(id) {
+            const content = document.getElementById('content-' + id);
+            const header = content.previousElementSibling;
+            const expanded = header.getAttribute('aria-expanded') === 'true';
+            header.setAttribute('aria-expanded', !expanded);
+            content.classList.toggle('active');
+        }
+
+        function updateWorkers(value) {
+            document.getElementById('workers-value').textContent = value;
+        }
+
+        function selectMode(mode) {
+            document.getElementById('specific-selection').style.display = mode === 'specific' ? 'block' : 'none';
+        }
     </script>
 </body>
 </html>

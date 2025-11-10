@@ -34,12 +34,9 @@ def carregar_config():
         with open(CONFIG_FILE, 'r', encoding='utf-8') as f:
             return json.load(f)
 
-    # Define pasta Downloads do usuário como padrão
-    home = os.path.expanduser("~")
-    pasta_downloads = os.path.join(home, 'Downloads', 'Cadernos PJe')
-
+    # Define C:\Cadernos PJe como padrão (Windows)
     return {
-        'pasta_salvamento': pasta_downloads,
+        'pasta_salvamento': r'C:\Cadernos PJe',
         'workers': 10  # Velocidade máxima por padrão
     }
 
@@ -122,6 +119,35 @@ def index():
                          config=config,
                          tribunais_por_uf=tribunais_por_uf,
                          total_documentos=len(indice['documentos']))
+
+
+@app.route('/api/selecionar_pasta', methods=['GET'])
+def api_selecionar_pasta():
+    """API para abrir seletor de pasta nativo do Windows"""
+    try:
+        import tkinter as tk
+        from tkinter import filedialog
+
+        # Cria janela invisível
+        root = tk.Tk()
+        root.withdraw()
+        root.attributes('-topmost', True)
+
+        # Abre seletor de pasta
+        pasta_selecionada = filedialog.askdirectory(
+            title='Selecione a pasta para salvar os cadernos',
+            initialdir='C:\\'
+        )
+
+        root.destroy()
+
+        if pasta_selecionada:
+            return jsonify({'sucesso': True, 'pasta': pasta_selecionada})
+        else:
+            return jsonify({'sucesso': False, 'mensagem': 'Nenhuma pasta selecionada'})
+
+    except Exception as e:
+        return jsonify({'sucesso': False, 'erro': str(e)}), 500
 
 
 @app.route('/api/config', methods=['GET', 'POST'])

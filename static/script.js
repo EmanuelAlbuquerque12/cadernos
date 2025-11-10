@@ -28,12 +28,30 @@ function selectMode(mode) {
 // CONFIGURAÇÕES
 // ========================================
 
+function abrirSeletorPasta() {
+    // Chama API para abrir seletor de pasta nativo do Windows
+    fetch('/api/selecionar_pasta')
+        .then(response => response.json())
+        .then(data => {
+            if (data.sucesso && data.pasta) {
+                document.getElementById('pasta_salvamento').value = data.pasta;
+                alert('📁 Pasta selecionada: ' + data.pasta);
+            } else if (data.mensagem) {
+                // Usuário cancelou a seleção
+                console.log(data.mensagem);
+            }
+        })
+        .catch(error => {
+            alert('❌ Erro ao abrir seletor de pasta: ' + error);
+        });
+}
+
 function salvarConfig() {
     const pasta = document.getElementById('pasta_salvamento').value;
     const workers = document.getElementById('workers').value;
 
     if (!pasta.trim()) {
-        alert('⚠️ Por favor, informe a pasta de salvamento!');
+        alert('⚠️ Por favor, selecione uma pasta de salvamento!');
         return;
     }
 
@@ -50,7 +68,7 @@ function salvarConfig() {
     .then(response => response.json())
     .then(data => {
         if (data.sucesso) {
-            alert('✅ Configurações salvas com sucesso!');
+            alert('✅ Configurações salvas com sucesso!\n\n📁 Pasta: ' + pasta + '\n⚡ Velocidade: ' + workers + ' downloads simultâneos');
 
             // Fecha o modal
             const modal = document.getElementById('config-modal');

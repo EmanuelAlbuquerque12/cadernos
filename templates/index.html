@@ -704,12 +704,12 @@
                     <div class="form-group">
                         <label for="pasta_salvamento"><i class="fas fa-folder"></i> Pasta de Salvamento</label>
                         <div class="input-with-button">
-                            <input type="text" id="pasta_salvamento" value="{{ config.pasta_salvamento }}" placeholder="Ex: C:\Downloads\Cadernos PJe">
-                            <button onclick="salvarConfig()" class="btn btn-primary">
-                                <i class="fas fa-save"></i> Salvar
+                            <input type="text" id="pasta_salvamento" value="{{ config.pasta_salvamento }}" placeholder="C:\Cadernos PJe" readonly>
+                            <button onclick="abrirSeletorPasta()" class="btn btn-primary">
+                                <i class="fas fa-folder-open"></i> Procurar
                             </button>
                         </div>
-                        <small>Padrão: Downloads/Cadernos PJe • Organizado por tribunal/ano/mês</small>
+                        <small>Padrão: C:\Cadernos PJe • Organizado por tribunal/ano/mês</small>
                     </div>
 
                     <div class="form-group">
@@ -723,6 +723,12 @@
                             <span>Rápido (10)</span>
                         </div>
                         <small>Downloads simultâneos • Padrão: 10 (máximo)</small>
+                    </div>
+
+                    <div style="text-align: right; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--gray-200);">
+                        <button onclick="salvarConfig()" class="btn btn-success">
+                            <i class="fas fa-save"></i> Salvar Configurações
+                        </button>
                     </div>
                 </div>
             </div>

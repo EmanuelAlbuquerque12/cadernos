@@ -33,9 +33,14 @@ def carregar_config():
     if os.path.exists(CONFIG_FILE):
         with open(CONFIG_FILE, 'r', encoding='utf-8') as f:
             return json.load(f)
+
+    # Define pasta Downloads do usuário como padrão
+    home = os.path.expanduser("~")
+    pasta_downloads = os.path.join(home, 'Downloads', 'Cadernos PJe')
+
     return {
-        'pasta_salvamento': os.path.join(os.getcwd(), 'cadernos_baixados'),
-        'workers': 5
+        'pasta_salvamento': pasta_downloads,
+        'workers': 10  # Velocidade máxima por padrão
     }
 
 

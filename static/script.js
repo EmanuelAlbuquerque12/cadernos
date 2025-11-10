@@ -50,11 +50,14 @@ function salvarConfig() {
     .then(response => response.json())
     .then(data => {
         if (data.sucesso) {
-            // Atualiza badge de status
-            document.getElementById('status-step1').innerHTML =
-                '<span class="badge badge-success">✓ Configurado</span>';
-
             alert('✅ Configurações salvas com sucesso!');
+
+            // Fecha o modal
+            const modal = document.getElementById('config-modal');
+            if (modal) {
+                modal.classList.remove('show');
+            }
+
             carregarEstatisticas();
         }
     })
